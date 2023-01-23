@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+start.sh
+key.crt
+key.pem
+env.sh
