@@ -66,6 +66,3 @@ def decodeToken(data: str):
         algorithms=['RS256'],
         verify=True,
     )
-
-
-

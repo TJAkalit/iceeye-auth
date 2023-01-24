@@ -15,7 +15,6 @@ auth = APIRouter()
 @auth.post('/login')
 async def login(creds: Credentials):
     
-    COOKIE_KEY = 'IE_AUTH'
     DOMAIN = '127.0.0.1'
     
     async with Session() as s0:
@@ -31,7 +30,7 @@ async def login(creds: Credentials):
         response = JSONResponse(content={'result': 'Authorized'}, status_code=202)
         
         response.set_cookie(
-            key=COOKIE_KEY,
+            key='ie_a_renew',
             value=encodeToken({'user_id': dataset[0][0].id}),
             max_age=60*60*24,
             domain=DOMAIN,
@@ -58,12 +57,9 @@ async def userCreate(user: UserCreate, IE_AUTH_MAIN: str | None = Cookie(default
     return {'userId': objId}
         
 @auth.get('/renew')
-async def renewToken(IE_AUTH: str | None = Cookie(default=None)):
-    
-    if not IE_AUTH:
-        raise HTTPException(401)
+async def renewToken(ie_a_renew: str | None = Cookie(default=None)):
 
-    data = decodeToken(IE_AUTH)
+    data = decodeToken(ie_a_renew)
     async with Session() as s0:
         
         query = select(User).where(User.id==data['user_id'])
@@ -89,7 +85,7 @@ async def renewToken(IE_AUTH: str | None = Cookie(default=None)):
 
         response = JSONResponse(content={'Result': 'Renewed'})
         response.set_cookie(
-            'IE_AUTH_MAIN',
+            'ie_a_main',
             value=encodeToken(metaData),
             path='/',
             httponly=True,
