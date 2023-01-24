@@ -78,9 +78,9 @@ async def renewToken(ie_a_renew: str | None = Cookie(default=None)):
             'last_name': user.last_name,
             'middle_name': user.middle_name,
             'email': user.email,
-            'exp': (
+            'exp': int((
                 datetime.datetime.now() + datetime.timedelta(seconds=30)    
-            ).isoformat()
+            ).timestamp())
         }
 
         response = JSONResponse(content={'Result': 'Renewed'})
