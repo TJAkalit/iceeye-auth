@@ -132,3 +132,6 @@ start.sh
 key.crt
 key.pem
 env.sh
+
+start.ps1
+migration.ps1
